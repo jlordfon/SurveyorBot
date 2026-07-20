@@ -5,7 +5,9 @@ SurveyorBot is a drone that autonomously surveys a designated area, creating a d
 -   [Introduction](#introduction)
 -   [Table of Contents](#table-of-contents)
 -   [Philosophies and Methods](#philosophies-and-methods)
--   [Getting Started](#getting-started)
+-   [Installation](#installation)
+-   [Run Software](#run-software)
+-   [Tooling](#tooling)
 
 # Philosophies and Methods
 These are the guiding principles of the project
@@ -19,4 +21,63 @@ These are the guiding principles of the project
 - Support Sensor Replay: As applicable, components will support sensor replay for advanced debugging and algorithm comparison
 - Modern Language Versions: The current latest, verified version of each language will be used
 
-# Getting Started
+# Installation
+1) Install git on Windows
+2) Run `wsl.exe --install Ubuntu-26.04`
+3) Run
+```
+sudo apt-get update
+sudo apt-get install build-essential
+sudo apt install cmake ninja-build clang clang-format clang-tidy
+git config --global user.name "YourName"
+git config --global user.email "YouEmail"
+git config --global credential.helper "/mnt/c/Program\ Files/Git/mingw64/bin/git-credential-manager.exe"
+cd ~
+git clone https://github.com/microsoft/vcpkg.git
+```
+4) Install vcpkg by running the following commands from [these instructions](https://github.com/MicrosoftDocs/vcpkg-docs/blob/main/vcpkg/get_started/includes/setup-vcpkg.md)
+```
+git clone https://github.com/microsoft/vcpkg.git
+cd vcpkg
+sudo apt-get install curl zip unzip tar pkg-config
+./bootstrap-vcpkg.sh
+./vcpkg integrate install
+./vcpkg integrate bash
+./vcpkg install gtest
+sudo vim ~/.bashrc
+```
+5) Scroll to the bottom and add the following lines
+```
+export VCPKG_ROOT="~/vcpkg/"
+export PATH="$PATH:$VCPKG_ROOT"
+```
+6) Save and quit
+7) Run the following command
+```
+source ~/.bashrc
+```
+8) Clone into the SurveyorBot repo
+9) Run
+```
+cd SurveyorBot
+clang-format --style=Google -dump-config > .clang-format
+code .
+```
+10) Install the following VSCode extensions in WSL: C/C++, Clang-Format
+11) Right click on a cpp file and select Format Document, choosing Clang-Format
+12) Under File->Preferences->Settings, check "Format On Save" and set the "Default Formatter" to "Clang-Format"
+13) Set up vcpkg for SurveyorBot
+# TODO: Software distribution packaging system (CPack)
+# TODO: Set up CI/CD (Github or Jenkins or CDash?) => Make sure clang-format is in the CI Build
+
+# Run Software
+1) Run 
+```
+cd build
+cmake .. -G Ninja -D CMAKE_C_COMPILER=clang -D CMAKE_CXX_COMPILER=clang++
+ninja
+./HelloWorld
+```
+
+# Tooling
+Github, git, C++23, gcc, g++, CMake, Ninja, clang, clang-format, clang-tidy
