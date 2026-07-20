@@ -1,0 +1,63 @@
+# This starter workflow is for a CMake project running on multiple platforms. There is a different starter workflow if you just want a single platform.
+# See: https://github.com/actions/starter-workflows/blob/main/ci/cmake-single-platform.yml
+name: On Pull Request To Main
+run-name: "Pull Request To Main by ${{ github.actor }}"
+on: 
+  pull_request:
+    branches: [ $default-branch ]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+  pull-requests: write
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+
+      matrix:
+        os: [ubuntu-latest]
+        build_type: [Release, Debug]
+        c_compiler: [clang]
+        include:
+          - os: ubuntu-latest
+            c_compiler: clang
+            cpp_compiler: clang++
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install Requirements
+      run: |
+        sudo bash setup.sh
+
+    - name: Set Up VCPkg
+      run: |
+        cd ${{ github.workspace }}/..
+        git clone https://github.com/microsoft/vcpkg.git
+        cd ./vcpkg
+        ./bootstrap-vcpkg.sh
+        ./vcpkg integrate install
+        ./vcpkg integrate bash
+        ./vcpkg install gtest
+        export VCPKG_ROOT="../vcpkg/"
+        export PATH="$PATH:$VCPKG_ROOT"
+
+    - name: Build Project
+      run: |
+        cd ${{ github.workspace }}
+        mkdir build
+        cd build
+        mkdir ${{ matrix.build_type }}
+        cd ${{ matrix.build_type }}
+        cmake -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} .. -G Ninja -D CMAKE_C_COMPILER=clang -D CMAKE_CXX_COMPILER=clang++
+        ninja
+    
+    - name: Run Hello World tests
+      run: |
+        ls
+        hello_world_tests
