@@ -60,4 +60,4 @@ jobs:
     - name: Run Hello World tests
       run: |
         ls
-        hello_world_tests
+        ./test/hello_world_test
