@@ -1,4 +1,5 @@
 find_package(GTest CONFIG REQUIRED)
+include(GoogleTest)
 
 add_executable(hello_world_test hello_world_test.cpp)
 
@@ -7,4 +8,4 @@ target_link_libraries(hello_world_test PRIVATE GTest::gtest GTest::gtest_main GT
 target_include_directories(hello_world_test
 PRIVATE ..)
 
-#add_test(helloWorldTests hello_world_test)
+gtest_discover_tests(hello_world_test)
