@@ -62,8 +62,7 @@ code .
 10) Install the following VSCode extensions in WSL: C/C++, Clang-Format
 11) Right click on a cpp file and select Format Document, choosing Clang-Format
 12) Under File->Preferences->Settings, check "Format On Save" and set the "Default Formatter" to "Clang-Format"
-# TODO: Software distribution packaging system (CPack)
-# TODO: Set up CI/CD (Github or Jenkins or CDash?)
+# TODO: Set up software releases
 
 # Run Software
 1) Run 
