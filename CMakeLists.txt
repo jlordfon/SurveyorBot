@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 4.2.3 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.31.6 FATAL_ERROR)
 
 set(CMAKE_CXX_CLANG_TIDY clang-tidy)
 

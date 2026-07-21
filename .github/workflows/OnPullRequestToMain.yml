@@ -4,7 +4,7 @@ name: On Pull Request To Main
 run-name: "Pull Request To Main by ${{ github.actor }}"
 on: 
   pull_request:
-    branches: [ $default-branch ]
+    branches: [ main ]
 
 permissions:
   contents: read
@@ -33,9 +33,10 @@ jobs:
 
     - name: Install Requirements
       run: |
-        sudo bash setup.sh
+        sudo bash requirements.sh
 
     - name: Set Up VCPkg
+      id: vcpkg-setup
       run: |
         cd ${{ github.workspace }}/..
         git clone https://github.com/microsoft/vcpkg.git
@@ -44,20 +45,23 @@ jobs:
         ./vcpkg integrate install
         ./vcpkg integrate bash
         ./vcpkg install gtest
-        export VCPKG_ROOT="../vcpkg/"
-        export PATH="$PATH:$VCPKG_ROOT"
+        echo "VCPKG_ROOT=${{ github.workspace }}/../vcpkg/" >> "$GITHUB_OUTPUT"
 
     - name: Build Project
+      env:
+        VCPKG_ROOT: ${{ steps.vcpkg-setup.outputs.VCPKG_ROOT }}
       run: |
         cd ${{ github.workspace }}
         mkdir build
         cd build
         mkdir ${{ matrix.build_type }}
         cd ${{ matrix.build_type }}
-        cmake -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} .. -G Ninja -D CMAKE_C_COMPILER=clang -D CMAKE_CXX_COMPILER=clang++
+        echo "$PWD"
+        echo "$VCPKG_ROOT"
+        ninja --version
+        cmake ../.. -G Ninja -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -D CMAKE_C_COMPILER=clang -D CMAKE_CXX_COMPILER=clang++
         ninja
     
     - name: Run Hello World tests
       run: |
-        ls
-        ./test/hello_world_test
+        ./build/${{ matrix.build_type}}/test/hello_world_test
