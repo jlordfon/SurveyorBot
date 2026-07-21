@@ -70,6 +70,7 @@ cd build
 cmake .. -G Ninja -D CMAKE_C_COMPILER=clang -D CMAKE_CXX_COMPILER=clang++
 ninja
 ./hello_world
+./test/hello_world_test
 ```
 
 # Tooling
