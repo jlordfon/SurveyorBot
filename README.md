@@ -1,5 +1,5 @@
 # Introduction
-SurveyorBot is a drone that autonomously surveys a designated area, creating a detailed, semantically-labelled 3-d map.  It can provide 3d landscapes to realtors, allow remote inspection of properties, and document scenes.
+SurveyorBot is a drone that autonomously surveys a designated area, creating a detailed, semantically-labelled 3d map.  It can provide 3d landscapes to realtors, allow remote inspection of properties, and document scenes.
 
 # Table of Contents
 -   [Introduction](#introduction)
@@ -53,7 +53,6 @@ export PATH="$PATH:$VCPKG_ROOT"
 ```
 source ~/.bashrc
 ```
-8) Clone into the SurveyorBot repo
 9) Run
 ```
 cd SurveyorBot
@@ -71,6 +70,7 @@ cd build
 cmake .. -G Ninja -D CMAKE_C_COMPILER=clang -D CMAKE_CXX_COMPILER=clang++
 ninja
 ./hello_world
+./test/hello_world_test
 ```
 
 # Tooling
