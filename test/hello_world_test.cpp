@@ -10,4 +10,5 @@ TEST_P(adderTest, addition) {
 
 INSTANTIATE_TEST_SUITE_P(additionTests, adderTest,
                          ::testing::Values(std::make_tuple(2, 3, 5),
-                                           std::make_tuple(1, 1, 2)));
+                                           std::make_tuple(1, 1, 2),
+                                           std::make_tuple(1, 1, 1000)));
