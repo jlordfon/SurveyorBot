@@ -1,8 +1,8 @@
 name: Main Release or Pull Request
 run-name: >-
   ${{ github.event_name == 'push'
-    && format('Creating a Release by {0}', github.actor)
-    || format('Pull Request to Main by {0} with tag {1}', github.actor, github.ref_name) }}
+    && format('Creating a Release by {0} with tag {1}', github.actor, github.ref_name)
+    || format('Pull Request to Main by {0}', github.actor) }}
 on: 
   pull_request:
     branches: [ main ]
