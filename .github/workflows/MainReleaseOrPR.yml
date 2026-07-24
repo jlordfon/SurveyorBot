@@ -32,7 +32,7 @@ jobs:
         if: ${{ github.event_name == 'push' }}
         id: step1
         run: |
-          if [ ${{ github.ref_name }} == "v*" ]; then
+          if [[ ${{ github.ref_name }} == v* ]]; then
             echo "tagPush=true" >> "$GITHUB_OUTPUT"
             echo "success=false" >> "$GITHUB_OUTPUT"
           else
