@@ -1,8 +1,8 @@
 name: Main Release or Pull Request
 run-name: >-
   ${{ github.event_name == 'push'
-    && format('Creating a Release by github.actor')
-    || format('Pull Request to Main by github.actor') }}
+    && format('Creating a Release by {0}', github.actor)
+    || format('Pull Request to Main by {0}', github.actor) }}
 on: 
   pull_request:
     branches: [ main ]
@@ -22,15 +22,18 @@ jobs:
   createRelease:
     runs-on: ubuntu-latest
     outputs:
-      output1: ${{ steps.step1.outputs.success }}
+      output1: ${{ steps.step1.outputs.tagPush }}
+      output2: ${{ steps.step1.outputs.success }}
     steps:
       - name: IsRelease
-        run: echo "success=false" >> "$GITHUB_OUTPUT"
+        run: echo "tagPush=false" >> "$GITHUB_OUTPUT"
         
       - name: CreateRelease
         if: ${{ github.event_name == 'push' }}
         id: step1
         run: |
+          echo "tagPush=true" >> "$GITHUB_OUTPUT"
+          echo "success=false" >> "$GITHUB_OUTPUT"
           gh release create ${{ github.ref_name }} --notes-from-tag --title ${{ github.ref_name }} --verify-tag
           echo "success=true" >> "$GITHUB_OUTPUT"
         env:
@@ -92,4 +95,9 @@ jobs:
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       if: ${{ needs.createRelease.outputs.output1 == 'true' }}
-      run: gh release upload ${{ github.ref_name }} ./build/${{ matrix.build_type}}/hello_world#hello_world-${{ matrix.build_type }}
+      run: |
+        if [${{ needs.createRelease.outputs.output2 }} = 'false']
+        then
+          exit 1
+        fi
+        gh release upload ${{ github.ref_name }} ./build/${{ matrix.build_type}}/hello_world#hello_world-${{ matrix.build_type }}
