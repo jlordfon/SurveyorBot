@@ -51,7 +51,7 @@ jobs:
   build:
     runs-on: ${{ matrix.os }}
     needs: createRelease
-    if: ${{ always() && !cancelled() && ( github.event_name == 'pull_request' || ( github.event_name == 'push' && github.ref_name == 'v*'' ) ) }}
+    if: ${{ always() && !cancelled() && ( github.event_name == 'pull_request' || ( github.event_name == 'push' && github.ref_name == 'v*' ) ) }}
 
     strategy:
       fail-fast: false
