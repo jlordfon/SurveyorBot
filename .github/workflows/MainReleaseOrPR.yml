@@ -117,4 +117,9 @@ jobs:
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       if: ${{ needs.createRelease.outputs.output1 == 'true' }}
-      run: gh release upload ${{ github.ref_name }} ./build/${{ matrix.build_type }}/hello_world#hello_world-${{ matrix.build_type }}
+      run: |
+        if [ ${{ matrix.build_type }} = "Debug" ]; then
+          gh release upload ${{ github.ref_name }} ./build/${{ matrix.build_type }}/hello_world_${{ matrix.build_type }}#hello_world-${{ matrix.build_type }}
+        else
+          gh release upload ${{ github.ref_name }} ./build/${{ matrix.build_type }}/hello_world#hello_world-${{ matrix.build_type }}
+        fi
