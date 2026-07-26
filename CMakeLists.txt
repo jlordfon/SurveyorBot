@@ -6,9 +6,18 @@ set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake" CAC
 
 set(CMAKE_PREFIX_PATH "$ENV{VCPKG_ROOT}/installed/x64-linux/share")
 
+if (NOT CMAKE_BUILD_TYPE)
+    message("Build Type not set, defaulting to Debug")
+    set(CMAKE_BUILD_TYPE Debug)
+endif()
+
 project(hello_world LANGUAGES CXX)
 
-add_executable(hello_world hello_world.cpp)
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+    add_executable(hello_world_debug hello_world.cpp)
+else(true)
+    add_executable(hello_world hello_world.cpp)
+endif()
 
 enable_testing()
 
