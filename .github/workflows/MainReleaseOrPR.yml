@@ -46,6 +46,8 @@ jobs:
         ls
         gh release create ${{ github.ref_name }} --notes-from-tag --title ${{ github.ref_name }} --verify-tag
         echo "success=true" >> "$GITHUB_OUTPUT"
+        echo ${{ github.event_name }}
+        echo ${{ github.ref_name }}
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
