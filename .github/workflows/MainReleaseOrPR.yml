@@ -134,4 +134,9 @@ jobs:
       run: |
         echo "$PWD"
         ls
-        gh release upload ${{ github.ref_name }} ./build/${{ matrix.build_type}}/hello_world#hello_world-${{ matrix.build_type }}
+        cd build
+        echo "$PWD"
+        ls
+        echo ${{ matrix.build_type }}
+        cd ..
+        gh release upload ${{ github.ref_name }} ./build/${{ matrix.build_type }}/hello_world#hello_world-${{ matrix.build_type }}
