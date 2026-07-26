@@ -48,6 +48,11 @@ jobs:
         echo "success=true" >> "$GITHUB_OUTPUT"
         echo ${{ github.event_name }}
         echo ${{ github.ref_name }}
+        echo ${{ github.ref_type }}
+        echo ${{ github.ref }}
+        echo ${{ startsWith(github.ref, 'refs/tags/v') }}
+        echo ${{ github.event_name == 'push' }}
+        echo ${{ github.ref_name == 'v*' }}
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -55,7 +60,7 @@ jobs:
     permissions: write-all
     runs-on: ${{ matrix.os }}
     needs: createRelease
-    if: ${{ always() && !cancelled() && ( github.event_name == 'pull_request' || ( github.event_name == 'push' && github.ref_name == 'v*' ) ) }}
+    if: ${{ always() && !cancelled() && ( github.event_name == 'pull_request' || ( github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') ) ) }}
 
     strategy:
       fail-fast: false
