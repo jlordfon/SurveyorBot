@@ -20,6 +20,7 @@ permissions:
 
 jobs:
   createRelease:
+    permissions: write-all
     runs-on: ubuntu-latest
     outputs:
       output1: ${{ steps.step1.outputs.tagPush }}
@@ -49,6 +50,7 @@ jobs:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   build:
+    permissions: write-all
     runs-on: ${{ matrix.os }}
     needs: createRelease
     if: ${{ always() && !cancelled() && ( github.event_name == 'pull_request' || ( github.event_name == 'push' && github.ref_name == 'v*' ) ) }}
