@@ -119,7 +119,7 @@ jobs:
       if: ${{ needs.createRelease.outputs.output1 == 'true' }}
       run: |
         if [ ${{ matrix.build_type }} = "Debug" ]; then
-          gh release upload ${{ github.ref_name }} ./build/${{ matrix.build_type }}/hello_world_${{ matrix.build_type }}#hello_world-${{ matrix.build_type }}
+          gh release upload ${{ github.ref_name }} ./build/${{ matrix.build_type }}/hello_world_debug#hello_world-${{ matrix.build_type }}
         else
           gh release upload ${{ github.ref_name }} ./build/${{ matrix.build_type }}/hello_world#hello_world-${{ matrix.build_type }}
         fi
