@@ -61,15 +61,34 @@ code .
 10) Install the following VSCode extensions in WSL: C/C++, Clang-Format
 11) Right click on a cpp file and select Format Document, choosing Clang-Format
 12) Under File->Preferences->Settings, check "Format On Save" and set the "Default Formatter" to "Clang-Format"
-# TODO: Set up software releases
+13) To initialize the build process, run
+```
+mkdir build
+cd build
+mkdir Release
+cd Release
+cmake ../.. -G Ninja -DCMAKE_BUILD_TYPE=Release -D CMAKE_C_COMPILER=clang -D CMAKE_CXX_COMPILER=clang++
+cd ..
+mkdir Debug
+cd Debug
+cmake ../.. -G Ninja -DCMAKE_BUILD_TYPE=Debug -D CMAKE_C_COMPILER=clang -D CMAKE_CXX_COMPILER=clang++
+```
 
 # Run Software
-1) Run 
+1) To execute the release build, run 
 ```
-cd build
-cmake .. -G Ninja -D CMAKE_C_COMPILER=clang -D CMAKE_CXX_COMPILER=clang++
+cd SurveyorBot/Release
 ninja
 ./hello_world
+```
+2) To execute the debug build, run
+```
+cd SurveyorBot/Debug
+ninja
+./hello_world_debug
+```
+3) To execute unit tests, run
+```
 ./test/hello_world_test
 ```
 
